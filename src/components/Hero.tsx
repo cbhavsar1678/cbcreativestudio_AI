@@ -53,12 +53,12 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
         >
-          <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-neon-blue transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+          <a href="#projects" className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-neon-blue transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)] block">
             Explore Projects
-          </button>
-          <button className="px-8 py-4 glass text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 hover:scale-105 active:scale-95">
+          </a>
+          <a href="#ailab" className="px-8 py-4 glass text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 hover:scale-105 active:scale-95 block">
             AI Lab
-          </button>
+          </a>
         </motion.div>
       </div>
 
