@@ -12,18 +12,44 @@ export default function Navbar() {
     restDelta: 0.001
   });
 
+  const [activeSection, setActiveSection] = useState("");
+
+  const navLinks = [
+    { name: "Expertise", href: "#expertise", id: "expertise" },
+    { name: "Projects", href: "#projects", id: "projects" },
+    { name: "AI Lab", href: "#ailab", id: "ailab" },
+    { name: "Contact", href: "#contact", id: "contact" }
+  ];
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
-  const navLinks = [
-    { name: "Expertise", href: "#expertise" },
-    { name: "Projects", href: "#projects" },
-    { name: "AI Lab", href: "#ailab" },
-    { name: "Contact", href: "#contact" }
-  ];
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -70% 0px",
+      threshold: 0,
+    };
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+    navLinks.forEach((link) => {
+      const element = document.getElementById(link.id);
+      if (element) observer.observe(element);
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <>
@@ -60,10 +86,21 @@ export default function Navbar() {
               <a 
                 key={link.name} 
                 href={link.href}
-                className="text-xs font-mono uppercase tracking-[0.2em] text-slate-400 hover:text-neon-blue transition-colors relative group"
+                className={`text-xs font-mono uppercase tracking-[0.2em] transition-colors relative group ${
+                  activeSection === link.id ? "text-neon-blue font-bold" : "text-slate-400 hover:text-neon-blue"
+                }`}
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-neon-blue transition-all group-hover:w-full" />
+                {activeSection === link.id && (
+                  <motion.div 
+                    layoutId="navbar-dot"
+                    className="absolute -top-3 left-1/2 -translate-x-1/2 w-1 h-1 bg-neon-blue rounded-full shadow-[0_0_10px_#00f2ff]"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
+                <span className={`absolute -bottom-1 left-0 h-px bg-neon-blue transition-all ${
+                  activeSection === link.id ? "w-full opacity-100" : "w-0 opacity-0 group-hover:w-full group-hover:opacity-100"
+                }`} />
               </a>
             ))}
             <button className="px-6 py-2 bg-white text-black font-bold rounded-full text-sm hover:bg-neon-blue transition-all">
@@ -103,7 +140,9 @@ export default function Navbar() {
             key={link.name} 
             href={link.href}
             onClick={() => setIsOpen(false)}
-            className="text-4xl font-display font-bold hover:text-neon-blue"
+            className={`text-4xl font-display font-bold transition-colors ${
+              activeSection === link.id ? "text-neon-blue" : "text-white hover:text-neon-blue"
+            }`}
           >
             {link.name}
           </a>

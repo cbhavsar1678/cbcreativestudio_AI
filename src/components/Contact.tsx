@@ -1,7 +1,11 @@
 import { motion } from "motion/react";
-import { Mail, ArrowRight, Github, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Mail, ArrowRight, Github, Twitter, Linkedin, Instagram, ChevronUp } from "lucide-react";
 
 export default function Contact() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <section id="contact" className="py-24 px-6 max-w-7xl mx-auto">
       <div className="glass rounded-[40px] p-12 md:p-24 relative overflow-hidden">
@@ -56,9 +60,22 @@ export default function Contact() {
         </div>
       </div>
 
-      <footer className="mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 font-mono text-[10px] uppercase tracking-widest">
-        <span>© 2026 XENO DIGITAL STUDIO • BUILT WITH GEMINI</span>
-        <span>DESIGNED FOR THE NEXT ERA OF HUMAN-AI INTERACTION</span>
+      <footer className="mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 font-mono text-[10px] uppercase tracking-widest relative">
+        <div className="flex flex-col md:flex-row gap-4 items-center">
+          <span>© 2026 CB CREATIVE STUDIO • BUILT WITH GEMINI</span>
+          <span className="hidden md:inline opacity-30">|</span>
+          <span>DESIGNED FOR THE NEXT ERA OF HUMAN-AI INTERACTION</span>
+        </div>
+        
+        <motion.button
+          onClick={scrollToTop}
+          whileHover={{ y: -5, scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="glass p-3 rounded-full hover:bg-neon-blue hover:text-black transition-all border-neon-blue/20 hover:border-neon-blue group"
+        >
+          <ChevronUp className="w-4 h-4 group-hover:animate-bounce" />
+          <span className="sr-only">Scroll to top</span>
+        </motion.button>
       </footer>
     </section>
   );
