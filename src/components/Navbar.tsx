@@ -103,9 +103,6 @@ export default function Navbar() {
                 }`} />
               </a>
             ))}
-            <button className="px-6 py-2 bg-white text-black font-bold rounded-full text-sm hover:bg-neon-blue transition-all">
-              Resume
-            </button>
           </div>
 
           <button 

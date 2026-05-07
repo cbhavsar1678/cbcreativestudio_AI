@@ -2,25 +2,106 @@ import { motion } from "motion/react";
 
 const projects = [
   {
-    title: "NeuroFlow CRM",
-    client: "AI Startups",
-    category: "Product Design • AI",
-    img: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80&w=1200",
+    title: "Tea Enterprise",
+    category: "WEB DESIGN / UX / USER INTERFACE",
+    img: "http://cbcreativestudio.in/images/portfolio/chandan.jpg",
+    color: "from-amber-600/20 to-black"
+  },
+  {
+    title: "CHFC Organization",
+    category: "WEB DESIGN / USER INTERFACE",
+    img: "http://cbcreativestudio.in/images/portfolio/chfc.jpg",
     color: "from-blue-600/20 to-black"
   },
   {
-    title: "HoloOS Interface",
-    client: "Design System",
-    category: "Interaction Design",
-    img: "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?auto=format&fit=crop&q=80&w=1200",
-    color: "from-purple-600/20 to-black"
+    title: "BRING THE LORD BACK",
+    category: "WEB DESIGN / UX / USER INTERFACE",
+    img: "http://cbcreativestudio.in/images/portfolio/bringthe-lord.jpg",
+    color: "from-red-600/20 to-black"
   },
   {
-    title: "EcoGenesis Pro",
-    client: "Web3 Platform",
-    category: "Full-stack Evolution",
-    img: "https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=1200",
+    title: "Real Estate Agent",
+    category: "WEB DESIGN / UX / USER INTERFACE",
+    img: "http://cbcreativestudio.in/images/portfolio/thepropertyshop.jpg",
     color: "from-emerald-600/20 to-black"
+  },
+  {
+    title: "Design for People",
+    category: "WEB DESIGN / UX / USER INTERFACE",
+    img: "http://cbcreativestudio.in/images/portfolio/rockpile.jpg",
+    color: "from-indigo-600/20 to-black"
+  },
+  {
+    title: "Beauty Care",
+    category: "Branding / Logo Design / Flyer / Print",
+    img: "http://cbcreativestudio.in/images/portfolio/binita.jpg",
+    color: "from-pink-600/20 to-black"
+  },
+  {
+    title: "Consulting & Software",
+    category: "WEB DESIGN / UX / USER INTERFACE",
+    img: "http://cbcreativestudio.in/images/portfolio/valuedge.jpg",
+    color: "from-sky-600/20 to-black"
+  },
+  {
+    title: "Pet Sitters",
+    category: "WEB DESIGN / UX / UI / Logo",
+    img: "http://cbcreativestudio.in/images/portfolio/pet-sitters.jpg",
+    color: "from-orange-600/20 to-black"
+  },
+  {
+    title: "Design UX UI",
+    category: "WEB DESIGN / UX / USER INTERFACE",
+    img: "http://cbcreativestudio.in/images/portfolio/designuxui.jpg",
+    color: "from-violet-600/20 to-black"
+  },
+  {
+    title: "101 eCommerce",
+    category: "WEB DESIGN / UX / UI / Logo",
+    img: "http://cbcreativestudio.in/images/portfolio/101ecommerce.jpg",
+    color: "from-cyan-600/20 to-black"
+  },
+  {
+    title: "Timber Exchange",
+    category: "WEB DESIGN / UX / UI / Logo",
+    img: "http://cbcreativestudio.in/images/portfolio/timberxe.jpg",
+    color: "from-stone-600/20 to-black"
+  },
+  {
+    title: "Architecture Visualization",
+    category: "WEB DESIGN / USER INTERFACE",
+    img: "http://cbcreativestudio.in/images/portfolio/3d-architecture-visualization.jpg",
+    color: "from-teal-600/20 to-black"
+  },
+  {
+    title: "Newsletter Magazine",
+    category: "Graphic Design / Print",
+    img: "http://cbcreativestudio.in/images/portfolio/newsletter-coverpage.jpg",
+    color: "from-rose-600/20 to-black"
+  },
+  {
+    title: "Go Global",
+    category: "Branding / Logo Design",
+    img: "http://cbcreativestudio.in/images/portfolio/goglobal.jpg",
+    color: "from-yellow-600/20 to-black"
+  },
+  {
+    title: "Training and QA",
+    category: "Branding / Logo / UI / Web",
+    img: "http://cbcreativestudio.in/images/portfolio/unicode.jpg",
+    color: "from-green-600/20 to-black"
+  },
+  {
+    title: "Beauty Care Flyer",
+    category: "Branding / Print / Flyer",
+    img: "http://cbcreativestudio.in/images/portfolio/binita-flyer.jpg",
+    color: "from-fuchsia-600/20 to-black"
+  },
+  {
+    title: "Software Development",
+    category: "Branding / Logo / UI / Web",
+    img: "http://cbcreativestudio.in/images/portfolio/citrus.jpg",
+    color: "from-lime-600/20 to-black"
   }
 ];
 
