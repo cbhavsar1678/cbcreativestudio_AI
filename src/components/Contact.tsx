@@ -1,33 +1,28 @@
 import { motion } from "motion/react";
-import { useState } from "react";
-import { Mail, ArrowRight, Github, Twitter, Linkedin, Instagram, ChevronUp, Loader2, CheckCircle2 } from "lucide-react";
+import { Mail, Github, Linkedin, Instagram, ChevronUp } from "lucide-react";
+
+const Behance = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="M9 13c.5 0 1-.5 1-1s-.5-1-1-1H6v2h3z" />
+    <path d="M9 16c.5 0 1-.5 1-1s-.5-1-1-1H6v2h3z" />
+    <path d="M11 12h2" />
+    <path d="M17 11c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2h-2c-1.1 0-2-.9-2-2v-1c0-1.1.9-2 2-2h2z" />
+    <path d="M15 13h4" />
+    <path d="M3 7v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2z" />
+  </svg>
+);
 
 export default function Contact() {
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus("sending");
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        setStatus("success");
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        setStatus("error");
-      }
-    } catch (error) {
-      setStatus("error");
-    }
   };
 
   return (
@@ -43,77 +38,22 @@ export default function Contact() {
             viewport={{ once: true }}
           >
              <span className="font-mono text-neon-blue text-sm tracking-widest uppercase mb-4 block">Let's Connect</span>
-             <h2 className="text-5xl md:text-8xl font-display font-bold tracking-tighter mb-12">
+             <h2 className="text-5xl md:text-8xl font-display font-bold tracking-tighter mb-8">
                Let's Build the <br />
                <span className="text-glow text-neon-blue">Future Together.</span>
              </h2>
+             
+             <motion.a 
+               href="mailto:cbhavsar1678@gmail.com"
+               initial={{ opacity: 0, y: 10 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               transition={{ delay: 0.2 }}
+               className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-neon-blue transition-all duration-300 hover:scale-105 active:scale-95 mb-16 shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+             >
+               <Mail className="w-5 h-5" />
+               cbhavsar1678@gmail.com
+             </motion.a>
           </motion.div>
-
-          {status === "success" ? (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="max-w-md mx-auto py-12 glass rounded-3xl border-neon-blue/30 flex flex-col items-center gap-6"
-            >
-              <CheckCircle2 className="w-16 h-16 text-neon-blue" />
-              <div>
-                <h3 className="text-2xl font-bold mb-2">Signal Received!</h3>
-                <p className="text-slate-400">Your message has been transmitted through the creative ether.</p>
-              </div>
-              <button 
-                onClick={() => setStatus("idle")}
-                className="font-mono text-xs text-neon-blue uppercase tracking-widest border-b border-neon-blue/0 hover:border-neon-blue transition-all"
-              >
-                Send another signal
-              </button>
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="max-w-xl mx-auto flex flex-col gap-4 mb-16">
-              <input 
-                type="text" 
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="Your Neural Identity (Name)"
-                className="w-full glass bg-white/5 border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-neon-blue/50 transition-colors"
-                disabled={status === "sending"}
-              />
-              <input 
-                 type="email" 
-                 required
-                 value={formData.email}
-                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                 placeholder="Communication Protocol (Email)"
-                 className="w-full glass bg-white/5 border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-neon-blue/50 transition-colors"
-                 disabled={status === "sending"}
-               />
-              <textarea 
-                required
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                placeholder="Encoded Message (Tell us about your project)"
-                rows={4}
-                className="w-full glass bg-white/5 border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-neon-blue/50 transition-colors resize-none"
-                disabled={status === "sending"}
-              />
-              
-              <button 
-                type="submit"
-                disabled={status === "sending"}
-                className="w-full px-8 py-4 bg-white text-black font-bold rounded-2xl hover:bg-neon-blue transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group"
-              >
-                {status === "sending" ? (
-                  <>Transmitting... <Loader2 className="w-4 h-4 animate-spin" /></>
-                ) : (
-                  <>Send Signal <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></>
-                )}
-              </button>
-              
-              {status === "error" && (
-                <p className="text-red-400 text-sm font-mono mt-2 uppercase tracking-wide">Signal interruption. Please retry.</p>
-              )}
-            </form>
-          )}
 
           <div className="flex flex-wrap justify-center gap-8 md:gap-16">
             <a href="#" className="flex items-center gap-2 text-slate-400 hover:text-neon-blue transition-colors font-mono text-sm uppercase tracking-widest group">
@@ -123,7 +63,7 @@ export default function Contact() {
               <Linkedin className="w-4 h-4 group-hover:scale-125 transition-transform" /> LinkedIn
             </a>
             <a href="#" className="flex items-center gap-2 text-slate-400 hover:text-neon-blue transition-colors font-mono text-sm uppercase tracking-widest group">
-              <Twitter className="w-4 h-4 group-hover:scale-125 transition-transform" /> Twitter
+              <Behance className="w-4 h-4 group-hover:scale-125 transition-transform" /> Behance
             </a>
             <a href="#" className="flex items-center gap-2 text-slate-400 hover:text-neon-blue transition-colors font-mono text-sm uppercase tracking-widest group">
               <Instagram className="w-4 h-4 group-hover:scale-125 transition-transform" /> Instagram

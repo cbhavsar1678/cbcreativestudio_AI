@@ -9,19 +9,6 @@ async function startServer() {
 
   app.use(express.json());
 
-  // Contact form API route
-  app.post("/api/contact", (req, res) => {
-    const { name, email, message } = req.body;
-    
-    // In a real production app, you'd use a service like SendGrid, Mailgun, or Nodemailer
-    console.log(`Sending email to cbhavsar1678@gmail.com from ${name} (${email})`);
-    console.log(`Message: ${message}`);
-
-    // Since we don't have SMTP credentials in this environment, 
-    // we simulate a successful send.
-    res.json({ success: true, message: "Signal received by CB Creative Studio." });
-  });
-
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
