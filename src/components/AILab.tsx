@@ -3,7 +3,8 @@ import { GoogleGenAI } from "@google/genai";
 import { useState, useRef, useEffect } from "react";
 import { Send, Sparkles, Terminal } from "lucide-react";
 
-const ai = process.env.GEMINI_API_KEY ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY }) : null;
+const apiKey = (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY) || ((import.meta as any).env?.VITE_GEMINI_API_KEY);
+const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 export default function AILab() {
   const [prompt, setPrompt] = useState("");
@@ -12,13 +13,19 @@ export default function AILab() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
-    if (!prompt.trim() || !ai) return;
+    if (!prompt.trim()) return;
+    
+    if (!ai) {
+      setResponse("AI Laboratory is currently in offline mode. \n\nDiagnostic: API Key missing. If you are the owner, please ensure GEMINI_API_KEY or VITE_GEMINI_API_KEY is configured in your deployment settings.");
+      return;
+    }
+
     setLoading(true);
     setResponse("");
     try {
       const result = await ai.models.generateContentStream({ 
-        model: "gemini-3-flash-preview",
-        contents: `Act as an AI UX Architecture Consultant. The user wants to brainstorm: ${prompt}. Briefly suggest 3 futuristic UI/UX concepts for this idea.`
+        model: "gemini-1.5-flash",
+        contents: [{ role: "user", parts: [{ text: `Act as an AI UX Architecture Consultant. The user wants to brainstorm: ${prompt}. Briefly suggest 3 futuristic UI/UX concepts for this idea.` }] }]
       });
       
       for await (const chunk of result) {
@@ -28,11 +35,23 @@ export default function AILab() {
       }
     } catch (error) {
       console.error(error);
-      setResponse("AI Connection Error. Check your API configuration.");
+      setResponse("Signal Interrupted. The neural link could not be established. Please check your connection or Gemini API configuration.");
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Force scroll to this section if hash matches on mount
+    if (window.location.hash === "#ailab") {
+      const el = document.getElementById("ailab");
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
