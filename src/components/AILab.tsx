@@ -3,7 +3,23 @@ import { GoogleGenAI } from "@google/genai";
 import { useState, useRef, useEffect } from "react";
 import { Send, Sparkles, Terminal } from "lucide-react";
 
-const apiKey = (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY) || ((import.meta as any).env?.VITE_GEMINI_API_KEY);
+const getApiKey = () => {
+  // Check for Vite's environment variables (embedded at build time)
+  // This is the standard way Vite handles variables for production builds
+  const viteKey = (import.meta as any).env?.VITE_GEMINI_API_KEY;
+  if (viteKey && viteKey !== "YOUR_KEY_HERE" && !viteKey.includes("MY_GEMINI_API_KEY")) {
+    return viteKey;
+  }
+
+  // Fallback for AI Studio preview environment
+  if (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY) {
+    return process.env.GEMINI_API_KEY;
+  }
+  
+  return null;
+};
+
+const apiKey = getApiKey();
 const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 export default function AILab() {
@@ -12,19 +28,22 @@ export default function AILab() {
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const isConfigured = !!ai;
+
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
     
     if (!ai) {
-      setResponse("AI Laboratory is currently in offline mode. \n\nDiagnostic: API Key missing. If you are the owner, please ensure GEMINI_API_KEY or VITE_GEMINI_API_KEY is configured in your deployment settings.");
+      setResponse("AI Laboratory: OFFLINE \n\nGoDaddy/Production Fix:\n1. Open your local project.\n2. Create a file named '.env' (NOT .env.example).\n3. Add 'VITE_GEMINI_API_KEY=AIzaSyAs21qH5x1p1IVnUdz3wPmzkMtdadToBGI' to it.\n4. Open your terminal and run: npm run build\n5. Upload the NEW contents of the 'dist' folder to GoDaddy.\n\nNote: The 'Neural Link' indicator below must be green before prompts will work.");
       return;
     }
 
     setLoading(true);
     setResponse("");
     try {
+      // Use the latest Gemini 3 model as per best practices
       const result = await ai.models.generateContentStream({ 
-        model: "gemini-1.5-flash",
+        model: "gemini-3-flash-preview", 
         contents: [{ role: "user", parts: [{ text: `Act as an AI UX Architecture Consultant. The user wants to brainstorm: ${prompt}. Briefly suggest 3 futuristic UI/UX concepts for this idea.` }] }]
       });
       
@@ -33,9 +52,11 @@ export default function AILab() {
           setResponse(prev => prev + chunk.text);
         }
       }
-    } catch (error) {
-      console.error(error);
-      setResponse("Signal Interrupted. The neural link could not be established. Please check your connection or Gemini API configuration.");
+    } catch (error: any) {
+      console.error("Gemini Error:", error);
+      const errorMessage = error?.message || "Internal neural link failure.";
+      const errorReason = error?.reason || "Check API Key or Region";
+      setResponse(`Signal Interrupted. \n\nDetailed Error: ${errorMessage} \n\nReason: ${errorReason} \n\nPlease ensure your Gemini API Key is active and has permissions for the 'gemini-3-flash-preview' model.`);
     } finally {
       setLoading(false);
     }
@@ -74,16 +95,16 @@ export default function AILab() {
             with Google's Gemini models to brainstorm futuristic UX concepts 
             based on your digital product ideas.
           </p>
-          <div className="flex flex-wrap gap-4">
-            <div className="glass px-4 py-2 rounded-lg flex items-center gap-2 border-neon-purple/30">
-              <Sparkles className="w-4 h-4 text-neon-purple" />
-              <span className="text-xs font-mono">Gemini 2.0 Integration</span>
+            <div className="flex flex-wrap gap-4">
+              <div className={`glass px-4 py-2 rounded-lg flex items-center gap-2 border-neon-purple/30 ${isConfigured ? 'bg-emerald-500/10' : 'bg-red-500/10'}`}>
+                <div className={`w-2 h-2 rounded-full animate-pulse ${isConfigured ? 'bg-emerald-500' : 'bg-red-500'}`} />
+                <span className="text-xs font-mono">{isConfigured ? 'Neural Link Online' : 'Neural Link Offline'}</span>
+              </div>
+              <div className="glass px-4 py-2 rounded-lg flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-neon-purple" />
+                <span className="text-xs font-mono">Gemini 3 Flash</span>
+              </div>
             </div>
-            <div className="glass px-4 py-2 rounded-lg flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-slate-400" />
-              <span className="text-xs font-mono">Prompt Engineering</span>
-            </div>
-          </div>
         </motion.div>
 
         <motion.div
